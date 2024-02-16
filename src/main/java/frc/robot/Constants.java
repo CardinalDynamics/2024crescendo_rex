@@ -45,8 +45,8 @@ public final class Constants {
     public static final int kRotater = 8;
   }
 
-  public static class ArmConstasnts {
-    // Arm motorcontroller CAN IDs and motor speeds
+  public static class ArmConstants {
+    // Arm motorcontroller CAN IDs (not updated) and motor speeds
     public static final int kArmID = 9;
     public static final int kSecondArmID = 0;
     public static final double kArmSpeedUp = .5;
