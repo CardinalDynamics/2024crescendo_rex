@@ -34,9 +34,9 @@ public final class Constants {
 
   public static class IntakeConstants {
     // CAN IDs for intake/manipulator (not updated), shooter motor speed
-    public static final int kTopShooter = 5;
-    public static final int kBottomShooter = 6;
-    public static final int kFeeder = 7;
+    public static final int kTopShooterID = 5;
+    public static final int kBottomShooterID = 6;
+    public static final int kIntakeID = 7;
     public static final double kShooterSpeed = 1.0;
   }
 
