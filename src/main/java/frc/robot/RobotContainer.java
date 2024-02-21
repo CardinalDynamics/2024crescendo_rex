@@ -4,12 +4,21 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.Autos;
+import frc.robot.commands.LowerArm;
+import frc.robot.commands.Chomp;
+import frc.robot.commands.LiftArm;
+import frc.robot.commands.Shoot;
 
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.subsystems.Drivetrain;
+import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Arm;
+import frc.robot.subsystems.Shooter;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -19,10 +28,15 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-
+  private final Drivetrain m_drivetrain = new Drivetrain();
+  private final Intake m_intake = new Intake();
+  private final Arm m_arm = new Arm();
+  private final Shooter m_shooter = new Shooter();
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandXboxController m_driverController =
       new CommandXboxController(OperatorConstants.kDriverControllerPort);
+  private final CommandXboxController m_operatorController =
+      new CommandXboxController(OperatorConstants.kOperatorControllerPort);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -40,6 +54,13 @@ public class RobotContainer {
    * joysticks}.
    */
   private void configureBindings() {
+    m_drivetrain.setDefaultCommand(
+      new RunCommand(
+        () -> m_drivetrain.arcadeDrive(-m_driverController.getLeftY(), -m_driverController.getRightX()),
+        m_drivetrain
+      ));
+    m_operatorController.leftTrigger().whileTrue(new Chomp(m_intake));
+    m_operatorController.rightTrigger().whileTrue(new Shoot(m_shooter));
   }
 
   /**
@@ -50,4 +71,4 @@ public class RobotContainer {
 
   // public Command getAutonomousCommand() {
   // }
-}
+  }
