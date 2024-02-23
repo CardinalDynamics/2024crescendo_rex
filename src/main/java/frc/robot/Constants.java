@@ -53,5 +53,14 @@ public final class Constants {
     public static final int kSecondArmID = 0;
     public static final double kArmSpeedUp = .5;
     public static final double kArmSpeedDown = -.5;
+
+    public static final int kSourceA = 3;
+    public static final int kSourceB = 4;
+  }
+
+  public static class ArmPIDConstants {
+    public static final double kP = 0;
+    public static final double kI = 0;
+    public static final double kD = 0;
   }
 }
