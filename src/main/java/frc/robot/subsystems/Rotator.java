@@ -14,6 +14,8 @@ public class Rotator extends SubsystemBase {
     // constructor
     public Rotator () {
         m_solenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH, kRotatorForward, kRotatorReverse);
+
+        m_solenoid.set(DoubleSolenoid.Value.kForward);
     }
 
     // defining method to toggle the rotator from being up to down and vice versa
