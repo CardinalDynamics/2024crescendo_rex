@@ -4,21 +4,25 @@
 
 package frc.robot;
 
+import static frc.robot.Constants.ArmPIDConstants.kArmUpSetPoint;
+import static frc.robot.Constants.ArmPIDConstants.kShootingPositionSetPoint;
+
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.Autos;
-import frc.robot.commands.LowerArm;
 import frc.robot.commands.Chomp;
-import frc.robot.commands.LiftArm;
+import frc.robot.commands.Rotate;
+import frc.robot.commands.SetArmAngle;
 import frc.robot.commands.Shoot;
 
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.Rotator;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -32,6 +36,7 @@ public class RobotContainer {
   private final Intake m_intake = new Intake();
   private final Arm m_arm = new Arm();
   private final Shooter m_shooter = new Shooter();
+  private final Rotator m_rotator = new Rotator();
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandXboxController m_driverController =
       new CommandXboxController(OperatorConstants.kDriverControllerPort);
@@ -61,6 +66,9 @@ public class RobotContainer {
       ));
     m_operatorController.leftTrigger().whileTrue(new Chomp(m_intake));
     m_operatorController.rightTrigger().whileTrue(new Shoot(m_shooter));
+    m_operatorController.a().onTrue(new SetArmAngle(kArmUpSetPoint, m_arm));
+    m_operatorController.b().onTrue(new SetArmAngle(kShootingPositionSetPoint, m_arm));
+    m_operatorController.x().onTrue(new Rotate(m_rotator));
   }
 
   /**

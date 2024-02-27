@@ -22,10 +22,10 @@ public final class Constants {
 
   public static class DrivetrainConstants {
     // CAN IDs for drive motor controllers
-    public static final int kLeftRearID = 1;
-    public static final int kLeftFrontID = 2;
+    public static final int kLeftRearID = 8;
+    public static final int kLeftFrontID = 1;
     public static final int kRightFrontID = 3;
-    public static final int kRightRearID = 4;
+    public static final int kRightRearID = 2;
     
 
     // Current limit for drivetrain motors
@@ -34,9 +34,9 @@ public final class Constants {
 
   public static class IntakeConstants {
     // CAN IDs for intake/manipulator (not updated), shooter motor speed
-    public static final int kTopShooterID = 5;
-    public static final int kBottomShooterID = 6;
-    public static final int kIntakeID = 7;
+    public static final int kTopShooterID = 6;
+    public static final int kBottomShooterID = 5;
+    public static final int kIntakeID = 4;
     public static final double kShooterSpeed = 1.0;
   }
 
@@ -49,8 +49,8 @@ public final class Constants {
 
   public static class ArmConstants {
     // Arm motorcontroller CAN IDs (not updated) and motor speeds
-    public static final int kArmID = 9;
-    public static final int kSecondArmID = 0;
+    public static final int kArmID = 7;
+    public static final int kSecondArmID = 9;
     public static final double kArmSpeedUp = .5;
     public static final double kArmSpeedDown = -.5;
 
@@ -62,5 +62,8 @@ public final class Constants {
     public static final double kP = 0;
     public static final double kI = 0;
     public static final double kD = 0;
+
+    public static final double kArmUpSetPoint = 0;
+    public static final double kShootingPositionSetPoint = 0;
   }
 }
