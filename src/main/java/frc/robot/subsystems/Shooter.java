@@ -27,7 +27,7 @@ public class Shooter extends SubsystemBase {
     // defning method to run shooter motors, to shoot note
     public void shootNote(double shooterSpeed) {
         topShooter.set(-shooterSpeed);
-        //bottomShooter.set(-shooterSpeed);
+        bottomShooter.set(-shooterSpeed);
     }
 
     // method to stop shooter motors

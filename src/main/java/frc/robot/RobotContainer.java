@@ -70,19 +70,22 @@ public class RobotContainer {
         m_drivetrain
       ));
     //m_operatorController.leftTrigger().whileTrue(new Chomp(m_intake));
-   // m_operatorController.rightTrigger().whileTrue(new Shoot(m_shooter));
-   m_operatorController.rightTrigger().whileTrue(new RunCommand(() -> m_shooter.shootNote(kShooterSpeed), m_shooter)).whileFalse((new RunCommand(() -> m_shooter.shootNote(0), m_shooter)));
     
-   //Trying a different API call from xboxcontroller class, switch from trigger to bumper
-    //I think this is basically bypassing using commands idk.
+    m_operatorController.rightTrigger().onTrue(new Shoot(m_shooter));
+    //m_operatorController.rightTrigger().onTrue(new RunCommand(() -> m_shooter.shootNote(kShooterSpeed), m_shooter)).whileFalse((new RunCommand(() -> m_shooter.shootNote(0), m_shooter)));
+    
+    m_operatorController.a().onTrue(new SetArmAngle(kArmUpSetPoint, m_arm));
+    m_operatorController.b().onTrue(new SetArmAngle(kShootingPositionSetPoint, m_arm));
+
+   //~~~~~~~~~~~~~~~Things below here seem to work correctly~~~~~~~~~~~~~~~~~~~~~~~
+
+//Note intake/outtake
     m_operatorController.leftBumper().onTrue(new RunCommand(() -> m_intake.intakeNote(), m_intake)).onFalse(new RunCommand(() -> m_intake.stopIntake(), m_intake));
     m_operatorController.rightBumper().onTrue(new RunCommand(() -> m_intake.outtakeNote(), m_intake)).onFalse(new RunCommand(() -> m_intake.stopIntake(), m_intake));
       
-    m_operatorController.a().onTrue(new SetArmAngle(kArmUpSetPoint, m_arm));
-    m_operatorController.b().onTrue(new SetArmAngle(kShootingPositionSetPoint, m_arm));
-    
-    //m_operatorController.x().onTrue(new Rotate(m_rotator));
-    m_operatorController.x().onTrue(new RunCommand(() -> m_rotator.setUp(), m_rotator)).onFalse(new RunCommand(() -> m_rotator.setDown(), m_rotator));
+//Solenoid operation
+    m_operatorController.x().onTrue(new RunCommand(() -> m_rotator.setUp(), m_rotator));
+    m_operatorController.y().onTrue(new RunCommand(() -> m_rotator.setDown(), m_rotator));
   }
 
   /**

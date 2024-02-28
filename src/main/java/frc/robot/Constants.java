@@ -23,7 +23,7 @@ public final class Constants {
   public static class DrivetrainConstants {
     // CAN IDs for drive motor controllers
     public static final int kLeftRearID = 8;
-    public static final int kLeftFrontID = 1;
+    public static final int kLeftFrontID = 12;
     public static final int kRightFrontID = 3;
     public static final int kRightRearID = 2;
     
@@ -43,9 +43,9 @@ public final class Constants {
 
   public static class SolenoidConstants {
     // solenoid CAN ID
-    public static final int kRotatorForward = 0;
-    public static final int kRotatorReverse = 6;
-   // public static final int kPneumaticsHubID = 12;
+    public static final int kRotatorForward = 1;
+    public static final int kRotatorReverse = 7;
+    public static final int kPneumaticsHubID = 1;
   }
 
   public static class ArmConstants {
