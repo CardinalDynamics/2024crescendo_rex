@@ -44,7 +44,7 @@ public final class Constants {
     // solenoid CAN ID (not updated)
     public static final int kRotatorForward = 8;
     public static final int kRotatorReverse = 9;
-    public static final int kSolenoidID = 0;
+    public static final int kPneumaticsHubID = 12;
   }
 
   public static class ArmConstants {
