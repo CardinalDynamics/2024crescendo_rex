@@ -33,11 +33,12 @@ public final class Constants {
   }
 
   public static class IntakeConstants {
-    // CAN IDs for intake/manipulator (not updated), shooter motor speed
+    // CAN IDs for intake/manipulator, shooter motor speed
     public static final int kTopShooterID = 6;
     public static final int kBottomShooterID = 5;
     public static final int kIntakeID = 4;
-    public static final double kShooterSpeed = 1.0;
+    public static final double kShooterSpeed = .75;
+    public static final double kBottomShooterSpeed = -.75;
   }
 
   public static class SolenoidConstants {

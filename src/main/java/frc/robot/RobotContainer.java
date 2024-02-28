@@ -6,6 +6,7 @@ package frc.robot;
 
 import static frc.robot.Constants.ArmPIDConstants.kArmUpSetPoint;
 import static frc.robot.Constants.ArmPIDConstants.kShootingPositionSetPoint;
+import static frc.robot.Constants.IntakeConstants.kShooterSpeed;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
@@ -61,11 +62,16 @@ public class RobotContainer {
   private void configureBindings() {
     m_drivetrain.setDefaultCommand(
       new RunCommand(
-        () -> m_drivetrain.arcadeDrive(-m_driverController.getLeftY(), -m_driverController.getRightX()),
+        () -> m_drivetrain.arcadeDrive(m_driverController.getLeftY(), m_driverController.getRightX()),
         m_drivetrain
       ));
-    m_operatorController.leftTrigger().whileTrue(new Chomp(m_intake));
-    m_operatorController.rightTrigger().whileTrue(new Shoot(m_shooter));
+    //m_operatorController.leftTrigger().whileTrue(new Chomp(m_intake));
+   // m_operatorController.rightTrigger().whileTrue(new Shoot(m_shooter));
+   m_operatorController.rightTrigger().whileTrue(new RunCommand(() -> m_shooter.shootNote(kShooterSpeed), m_shooter)).whileFalse((new RunCommand(() -> m_shooter.shootNote(0), m_shooter)));
+    //Trying a different API call from xboxcontroller class, switch from trigger to bumper
+    m_operatorController.leftBumper().onTrue(new RunCommand(() -> m_intake.intakeNote(), m_intake)).onFalse(new RunCommand(() -> m_intake.stopIntake(), m_intake));
+    m_operatorController.rightBumper().onTrue(new RunCommand(() -> m_intake.outtakeNote(), m_intake)).onFalse(new RunCommand(() -> m_intake.stopIntake(), m_intake));
+      
     m_operatorController.a().onTrue(new SetArmAngle(kArmUpSetPoint, m_arm));
     m_operatorController.b().onTrue(new SetArmAngle(kShootingPositionSetPoint, m_arm));
     m_operatorController.x().onTrue(new Rotate(m_rotator));

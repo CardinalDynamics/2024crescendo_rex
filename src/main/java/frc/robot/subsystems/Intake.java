@@ -21,6 +21,10 @@ public class Intake extends SubsystemBase {
 
     // defining method to start the intake motor
     public void intakeNote() {
+        m_intake.set(-1.0);
+    }
+
+    public void outtakeNote() {
         m_intake.set(1.0);
     }
 

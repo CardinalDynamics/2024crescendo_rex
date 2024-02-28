@@ -21,12 +21,13 @@ public class Shooter extends SubsystemBase {
 
         // Top and bottom shooter should both be going outwards given positive input.
         bottomShooter.setInverted(false);
-        topShooter.setInverted(false);
+        topShooter.setInverted(true);
     }
 
     // defning method to run shooter motors, to shoot note
     public void shootNote(double shooterSpeed) {
-        topShooter.set(shooterSpeed);
+        topShooter.set(-shooterSpeed);
+        //bottomShooter.set(-shooterSpeed);
     }
 
     // method to stop shooter motors
