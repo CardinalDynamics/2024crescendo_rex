@@ -13,7 +13,7 @@ public class Intake extends SubsystemBase {
 
     // constructor
     public Intake () {
-        m_intake = new CANSparkMax(kBottomShooterID, MotorType.kBrushless);
+        m_intake = new CANSparkMax(kIntakeID, MotorType.kBrushless);
 
         // Intake motor should run inwards when given a positive input
         m_intake.setInverted(false);
