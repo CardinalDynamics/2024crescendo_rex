@@ -16,6 +16,10 @@ public class Rotate extends Command{
         m_rotator.toggleRotator();
     }
 
+    public void setRotator(){
+        m_rotator.toggleRotator();
+    }
+
     public boolean isFinished() {
         return false;
     }

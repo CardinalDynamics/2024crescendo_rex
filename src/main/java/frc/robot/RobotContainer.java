@@ -7,11 +7,14 @@ package frc.robot;
 import static frc.robot.Constants.ArmPIDConstants.kArmUpSetPoint;
 import static frc.robot.Constants.ArmPIDConstants.kShootingPositionSetPoint;
 import static frc.robot.Constants.IntakeConstants.kShooterSpeed;
+import static frc.robot.Constants.SolenoidConstants.*;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.Autos;
 import frc.robot.commands.Chomp;
@@ -38,6 +41,7 @@ public class RobotContainer {
   private final Arm m_arm = new Arm();
   private final Shooter m_shooter = new Shooter();
   private final Rotator m_rotator = new Rotator();
+  
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandXboxController m_driverController =
       new CommandXboxController(OperatorConstants.kDriverControllerPort);
@@ -68,13 +72,17 @@ public class RobotContainer {
     //m_operatorController.leftTrigger().whileTrue(new Chomp(m_intake));
    // m_operatorController.rightTrigger().whileTrue(new Shoot(m_shooter));
    m_operatorController.rightTrigger().whileTrue(new RunCommand(() -> m_shooter.shootNote(kShooterSpeed), m_shooter)).whileFalse((new RunCommand(() -> m_shooter.shootNote(0), m_shooter)));
-    //Trying a different API call from xboxcontroller class, switch from trigger to bumper
+    
+   //Trying a different API call from xboxcontroller class, switch from trigger to bumper
+    //I think this is basically bypassing using commands idk.
     m_operatorController.leftBumper().onTrue(new RunCommand(() -> m_intake.intakeNote(), m_intake)).onFalse(new RunCommand(() -> m_intake.stopIntake(), m_intake));
     m_operatorController.rightBumper().onTrue(new RunCommand(() -> m_intake.outtakeNote(), m_intake)).onFalse(new RunCommand(() -> m_intake.stopIntake(), m_intake));
       
     m_operatorController.a().onTrue(new SetArmAngle(kArmUpSetPoint, m_arm));
     m_operatorController.b().onTrue(new SetArmAngle(kShootingPositionSetPoint, m_arm));
-    m_operatorController.x().onTrue(new Rotate(m_rotator));
+    
+    //m_operatorController.x().onTrue(new Rotate(m_rotator));
+    m_operatorController.x().onTrue(new RunCommand(() -> m_rotator.setUp(), m_rotator)).onFalse(new RunCommand(() -> m_rotator.setDown(), m_rotator));
   }
 
   /**
