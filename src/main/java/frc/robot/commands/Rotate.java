@@ -8,11 +8,11 @@ public class Rotate extends Command{
 
     public Rotate(Rotator rotator) {
         m_rotator = rotator;
-
         addRequirements(m_rotator);
     }    
     
     public void initialize() {
+        
         m_rotator.toggleRotator();
     }
 

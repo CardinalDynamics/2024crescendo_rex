@@ -96,6 +96,13 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
 
-  // public Command getAutonomousCommand() {
-  // }
+  public Command getAutonomousCommand() {
+    return (
+      new Rotate(m_rotator).withTimeout(1.0)
+      .andThen(new RunCommand(() -> m_arm.setArmVoltage(-10), m_arm)).withTimeout(.3)
+      .andThen(new RunCommand(() -> m_shooter.shootNote(kShooterSpeed), m_shooter)).withTimeout(.5)
+      .andThen(new Chomp(m_intake)).withTimeout(.1)
+      .andThen(new RunCommand(() -> m_shooter.stopShooting(), m_shooter)).withTimeout(.1)
+      );
+  }
   }
