@@ -22,8 +22,6 @@ public class Chomp extends Command{
     }
 
     public boolean isFinished() {
-        //adding the stop here to see if that helps stop it
-        m_intake.stopIntake();
         return false;
     }
 

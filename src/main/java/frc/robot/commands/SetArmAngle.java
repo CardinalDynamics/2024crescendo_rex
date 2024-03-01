@@ -11,7 +11,7 @@ public class SetArmAngle extends PIDCommand{
     public SetArmAngle(double angle, Arm arm) {
         super(new PIDController(kP, kI, kD), arm::getMeasurement, angle, (output) -> {arm.useOutput(output, angle);}, arm);
 
-        getController().enableContinuousInput(0, 360);
+        // getController().enableContinuousInput(0, 360);
         getController().setTolerance(.05);
     }
 

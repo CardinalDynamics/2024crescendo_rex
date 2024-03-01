@@ -15,23 +15,21 @@ public class Shooter extends SubsystemBase {
     public Shooter() {
         topShooter = new CANSparkMax(kTopShooterID, MotorType.kBrushless);
         bottomShooter = new CANSparkMax(kBottomShooterID, MotorType.kBrushless);
-        
-        // bottomshooter follows top shooter
-        bottomShooter.follow(topShooter);
 
         // Top and bottom shooter should both be going outwards given positive input.
-        bottomShooter.setInverted(false);
-        topShooter.setInverted(true);
+        bottomShooter.setInverted(true);
+        topShooter.setInverted(false);
     }
 
     // defning method to run shooter motors, to shoot note
     public void shootNote(double shooterSpeed) {
-        topShooter.set(-shooterSpeed);
-        bottomShooter.set(-shooterSpeed);
+        topShooter.set(shooterSpeed);
+        bottomShooter.set(shooterSpeed);
     }
 
     // method to stop shooter motors
     public void stopShooting() {
         topShooter.set(0);
+        bottomShooter.set(0);
     }
 }

@@ -11,20 +11,22 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.PIDSubsystem;
 
 public class Arm extends PIDSubsystem {
-    CANSparkMax m_arm;
-    CANSparkMax m_arm2;
+    CANSparkMax m_leftArm;
+    CANSparkMax m_rightArm;
     RelativeEncoder m_encoder;
     PIDController m_controller;
 
     // constructor
     public Arm() {
         super(new PIDController(kP, kI, kD));
-        m_arm = new CANSparkMax(kArmID, MotorType.kBrushless);
-        m_arm2 = new CANSparkMax(kSecondArmID, MotorType.kBrushless);
+        m_leftArm = new CANSparkMax(kArmID, MotorType.kBrushless);
+        m_rightArm = new CANSparkMax(kSecondArmID, MotorType.kBrushless);
+        m_leftArm.setInverted(true);
+        m_rightArm.setInverted(false);
 
-        m_encoder = m_arm.getEncoder();
-        m_encoder.setPositionConversionFactor(0.21875);
-        m_arm2.follow(m_arm);
+        m_encoder = m_leftArm.getEncoder();
+        m_encoder.setPosition(0);
+        m_encoder.setPositionConversionFactor(4.57142);
     }
 
     public double getMeasurement() {
@@ -32,7 +34,8 @@ public class Arm extends PIDSubsystem {
     }
 
     public void useOutput(double output, double setpoint) {
-        m_arm.setVoltage(output);
+        m_leftArm.setVoltage(output);
+        m_rightArm.setVoltage(output);
     }
 
     public boolean atSetpoint() {
@@ -40,12 +43,18 @@ public class Arm extends PIDSubsystem {
     }
 
     public void setArmVoltage(double voltage) {
-        m_arm.setVoltage(voltage);
+        m_rightArm.setVoltage(voltage);
+        m_leftArm.setVoltage(voltage);
+    }
+
+    public void setArmSpeed(double speed) {
+        m_leftArm.set(speed);
+        m_leftArm.set(speed);
     }
     
     // defining method to stop arm motors
     public void armStop() {
-        m_arm.set(0);
-        m_arm2.set(0);
+        m_leftArm.set(0);
+        m_rightArm.set(0);
     }
 }

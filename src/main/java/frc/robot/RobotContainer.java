@@ -3,10 +3,8 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot;
-
-import static frc.robot.Constants.ArmPIDConstants.kArmUpSetPoint;
-import static frc.robot.Constants.ArmPIDConstants.kShootingPositionSetPoint;
-import static frc.robot.Constants.IntakeConstants.kShooterSpeed;
+import static frc.robot.Constants.ArmPIDConstants.*;
+import static frc.robot.Constants.IntakeConstants.*;
 import static frc.robot.Constants.SolenoidConstants.*;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
@@ -36,18 +34,18 @@ import frc.robot.subsystems.Rotator;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  private final Drivetrain m_drivetrain = new Drivetrain();
-  private final Intake m_intake = new Intake();
-  private final Arm m_arm = new Arm();
-  private final Shooter m_shooter = new Shooter();
-  private final Rotator m_rotator = new Rotator();
+  public final Drivetrain m_drivetrain = new Drivetrain();
+  public final Intake m_intake = new Intake();
+  // public so I can use smartdashboard
+  public final Arm m_arm = new Arm();
+  public final Shooter m_shooter = new Shooter();
+  public final Rotator m_rotator = new Rotator();
   
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandXboxController m_driverController =
       new CommandXboxController(OperatorConstants.kDriverControllerPort);
   private final CommandXboxController m_operatorController =
       new CommandXboxController(OperatorConstants.kOperatorControllerPort);
-
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the trigger bindings
@@ -69,15 +67,18 @@ public class RobotContainer {
         () -> m_drivetrain.arcadeDrive(m_driverController.getLeftY(), m_driverController.getRightX()),
         m_drivetrain
       ));
+
+    m_shooter.setDefaultCommand(new RunCommand(() -> m_shooter.stopShooting(), m_shooter));
+    m_arm.setDefaultCommand(new RunCommand(() -> m_arm.armStop(), m_arm));
     //m_operatorController.leftTrigger().whileTrue(new Chomp(m_intake));
     
-    m_operatorController.rightTrigger().onTrue(new Shoot(m_shooter));
+    m_operatorController.rightTrigger().whileTrue(new Shoot(m_shooter));
     //m_operatorController.rightTrigger().onTrue(new RunCommand(() -> m_shooter.shootNote(kShooterSpeed), m_shooter)).whileFalse((new RunCommand(() -> m_shooter.shootNote(0), m_shooter)));
     
-    m_operatorController.a().onTrue(new SetArmAngle(kArmUpSetPoint, m_arm));
-    m_operatorController.b().onTrue(new SetArmAngle(kShootingPositionSetPoint, m_arm));
+    m_operatorController.a().whileTrue(new SetArmAngle(kArmUpSetPoint, m_arm));
+    m_operatorController.b().whileTrue(new RunCommand(() -> m_arm.setArmSpeed(-0.1), m_arm));
 
-   //~~~~~~~~~~~~~~~Things below here seem to work correctly~~~~~~~~~~~~~~~~~~~~~~~
+   //~~~~~~~~~STOP NO STOP~~~~~~Things below here seem to work correctly~~~~~~~~~~~~~~~~~~~~~~~
 
 //Note intake/outtake
     m_operatorController.leftBumper().onTrue(new RunCommand(() -> m_intake.intakeNote(), m_intake)).onFalse(new RunCommand(() -> m_intake.stopIntake(), m_intake));
@@ -88,6 +89,7 @@ public class RobotContainer {
     m_operatorController.y().onTrue(new RunCommand(() -> m_rotator.setDown(), m_rotator));
   }
 
+  // ABOVE THIS UNTIL NONO LINE NEEDS TO BE FIXED AS IT IS BAD GOUDE CODE.
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *

@@ -37,8 +37,8 @@ public final class Constants {
     public static final int kTopShooterID = 6;
     public static final int kBottomShooterID = 5;
     public static final int kIntakeID = 4;
-    public static final double kShooterSpeed = .75;
-    public static final double kBottomShooterSpeed = -.75;
+    public static final double kShooterSpeed = .9;
+    public static final double kBottomShooterSpeed = -.9;
   }
 
   public static class SolenoidConstants {
@@ -49,7 +49,7 @@ public final class Constants {
   }
 
   public static class ArmConstants {
-    // Arm motorcontroller CAN IDs (not updated) and motor speeds
+    // Arm motorcontroller CAN IDs and motor speeds
     public static final int kArmID = 7;
     public static final int kSecondArmID = 9;
     public static final double kArmSpeedUp = .5;
@@ -60,11 +60,11 @@ public final class Constants {
   }
 
   public static class ArmPIDConstants {
-    public static final double kP = 0;
+    public static final double kP = .05;
     public static final double kI = 0;
-    public static final double kD = 0;
+    public static final double kD = 0.0001;
 
-    public static final double kArmUpSetPoint = 0;
+    public static final double kArmUpSetPoint = 95;
     public static final double kShootingPositionSetPoint = 0;
   }
 }

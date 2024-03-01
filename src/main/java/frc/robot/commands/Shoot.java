@@ -8,10 +8,12 @@ import frc.robot.subsystems.Shooter;
 
 public class Shoot extends Command{
     Shooter m_shooter;
+    double speed;
     
     // contructor. uses shooter subsystem
     public Shoot(Shooter shooter) {
         m_shooter = shooter;
+        speed = kShooterSpeed;
 
         // shoot requires shooter
         addRequirements(m_shooter);
@@ -20,7 +22,7 @@ public class Shoot extends Command{
     // when this command is started, it calls shootNote(), which runs the shooter motors at kShooterSpeed.
     // it is not neccessary to have an execute() method, as the motor runs at the set speed until stopped
     public void initialize() {
-        m_shooter.shootNote(kShooterSpeed);
+        m_shooter.shootNote(speed);
     }
 
     public boolean isFinished() {
