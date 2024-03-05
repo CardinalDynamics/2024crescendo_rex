@@ -10,7 +10,10 @@ import static frc.robot.Constants.SolenoidConstants.*;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
@@ -75,8 +78,7 @@ public class RobotContainer {
     m_operatorController.rightTrigger().whileTrue(new Shoot(m_shooter));
     //m_operatorController.rightTrigger().onTrue(new RunCommand(() -> m_shooter.shootNote(kShooterSpeed), m_shooter)).whileFalse((new RunCommand(() -> m_shooter.shootNote(0), m_shooter)));
     
-    m_operatorController.a().whileTrue(new SetArmAngle(kArmUpSetPoint, m_arm));
-    m_operatorController.b().whileTrue(new RunCommand(() -> m_arm.setArmSpeed(-0.1), m_arm));
+    m_operatorController.a().whileTrue(new RunCommand(() -> m_arm.setArmSpeed(-.1), m_arm));
 
    //~~~~~~~~~STOP NO STOP~~~~~~Things below here seem to work correctly~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -97,12 +99,13 @@ public class RobotContainer {
    */
 
   public Command getAutonomousCommand() {
-    return (
-      new Rotate(m_rotator).withTimeout(1.0)
-      .andThen(new RunCommand(() -> m_arm.setArmVoltage(-10), m_arm)).withTimeout(.3)
-      .andThen(new RunCommand(() -> m_shooter.shootNote(kShooterSpeed), m_shooter)).withTimeout(.5)
-      .andThen(new Chomp(m_intake)).withTimeout(.1)
-      .andThen(new RunCommand(() -> m_shooter.stopShooting(), m_shooter)).withTimeout(.1)
-      );
+    SequentialCommandGroup commandGroup = new SequentialCommandGroup(
+      new InstantCommand(() -> m_arm.setArmVoltage(-10), m_arm),
+      new WaitCommand(0.1),
+      new InstantCommand(() -> m_arm.setArmVoltage(0), m_arm),
+      (new WaitCommand(0.5)),
+      (new RunCommand(() -> m_drivetrain.arcadeDrive(-.5, 0), m_drivetrain)).withTimeout(2)
+    );
+    return commandGroup;
   }
   }

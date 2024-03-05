@@ -26,7 +26,7 @@ public class Arm extends PIDSubsystem {
 
         m_encoder = m_leftArm.getEncoder();
         m_encoder.setPosition(0);
-        m_encoder.setPositionConversionFactor(4.57142);
+        m_encoder.setPositionConversionFactor((360/105));
     }
 
     public double getMeasurement() {
@@ -56,5 +56,9 @@ public class Arm extends PIDSubsystem {
     public void armStop() {
         m_leftArm.set(0);
         m_rightArm.set(0);
+    }
+
+    public void zeroEncoder() {
+        m_encoder.setPosition(0);
     }
 }
